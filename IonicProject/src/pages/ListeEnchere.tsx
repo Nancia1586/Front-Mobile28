@@ -181,21 +181,19 @@ const ListeEnchere: React.FC = () => {
                     <IonIcon slot="icon-only" icon={albums}></IonIcon>
                     <IonCardHeader>
                         <IonGrid>
-                            {/* <a href='/detail_enchere/{group.nomProduit}' style={{ textDecoration: "none" }}> */}
                             <Link style={{ textDecoration: "none"}} to={"/detail_enchere/" + group.id}>
-                            <IonRow>
-                                <IonCol>
-                                    <IonBadge color={getColorStatut(group.statut)}>{getStatut(group.statut)}</IonBadge>
-                                    <IonCardTitle>{group.nomProduit}</IonCardTitle>
-                                    <IonCardSubtitle>{group.dateDebut} (2h restant)</IonCardSubtitle>
-                                </IonCol>
-                                <IonCol size="auto">
-                                    <div style={{ width: "20px" }}>
-                                        {/* <IonIcon icon={search}></IonIcon> */}
-                                    </div>
-                                </IonCol>
-                            </IonRow>
-                            {/* </a> */}
+                                <IonRow>
+                                    <IonCol>
+                                        <IonBadge color={getColorStatut(group.statut)}>{getStatut(group.statut)}</IonBadge>
+                                        <IonCardTitle>{group.nomProduit}</IonCardTitle>
+                                        <IonCardSubtitle>{group.dateDebut} (2h restant)</IonCardSubtitle>
+                                    </IonCol>
+                                    <IonCol size="auto">
+                                        <div style={{ width: "20px" }}>
+                                            {/* <IonIcon icon={search}></IonIcon> */}
+                                        </div>
+                                    </IonCol>
+                                </IonRow>
                             </Link>
                         </IonGrid>
                     </IonCardHeader>
