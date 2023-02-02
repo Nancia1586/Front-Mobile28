@@ -34,6 +34,7 @@ import Login from './pages/Login';
 import HistoriqueRechargeCompte from './pages/HistoriqueRechargeCompte';
 import ListeEnchere from './pages/ListeEnchere';
 import Profil from './pages/Profil';
+import DetailEnchere from './pages/DetailEnchere';
 
 setupIonicReact();
 
@@ -42,9 +43,9 @@ const App: React.FC = () => (
     <IonReactRouter>
       <IonTabs>
         <IonRouterOutlet>
-          {/* <Route exact path="/vehicules/:idVehicule">
-            <DetailVehicule />
-          </Route> */}
+          <Route exact path="/detail_enchere/:id">
+            <DetailEnchere />
+          </Route>
           <Route path="/liste_enchere">
             <ListeEnchere />
           </Route>

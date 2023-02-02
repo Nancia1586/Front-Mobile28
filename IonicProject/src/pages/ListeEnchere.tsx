@@ -1,10 +1,14 @@
 import { IonButton, IonButtons, IonCol, IonCard, IonFab, IonContent, IonFabButton, IonFabList, IonCardHeader, IonCardContent, IonCardSubtitle, IonCardTitle, IonHeader, IonIcon, IonInput, IonItem, IonLabel, IonList, IonMenu, IonMenuButton, IonModal, IonPage, IonRefresher, IonRefresherContent, IonRow, IonSelect, IonSelectOption, IonThumbnail, IonTitle, IonToolbar, IonVirtualScroll, RefresherEventDetail, useIonViewWillEnter, IonBadge, IonGrid, IonSearchbar, IonAvatar, IonSegment, IonSegmentButton, IonToggle } from '@ionic/react';
-import { add, addCircleSharp, albums, bagAdd, bagAddOutline, business, card, chevronUpCircle, colorPalette, list, logOut, notifications, person, personCircle, search } from 'ionicons/icons';
-import { useEffect, useState } from 'react';
+import { add, addCircleSharp, albums, bagAdd, bagAddOutline, business, card, chevronUpCircle, colorPalette, eyeSharp, list, logOut, notifications, person, personCircle, search } from 'ionicons/icons';
+import { useEffect, useRef, useState } from 'react';
+import { Link } from 'react-router-dom';
 
 const ListeEnchere: React.FC = () => {
     const [list_, setList] = useState<any[]>([]);
+    const [search, setSearch] = useState<any[]>([]);
     const toggleDarkModeHandler = () => document.body.classList.toggle('dark');
+    const searchBarRef = useRef<HTMLIonSearchbarElement>(null);
+    const contentRef = useRef<HTMLIonContentElement>(null);
     
     useEffect(() => {
         fetch("http://localhost:8787/clients/1/encheres")
@@ -13,6 +17,17 @@ const ListeEnchere: React.FC = () => {
                 setList(res);
             })
     }, [])
+
+    const handleSearch = () => {
+        console.log(searchBarRef.current!.value);
+        fetch("http://localhost:8787/clients/1/encheres/search?mot=" + searchBarRef.current!.value)
+            .then(data => data.json())
+            .then(res => {
+                setSearch(res);
+                (document.getElementById("liste_enchere") as HTMLIonInputElement).style.display = "none";
+                (document.getElementById("result_search") as HTMLIonInputElement).style.display = "block";
+            })
+    };
 
     function Menu() {
         return (
@@ -153,12 +168,21 @@ const ListeEnchere: React.FC = () => {
 
     // function List(){
         const liste = list_.map(group => {
+            // const image = "";
+            // fetch("http://localhost:8787/encheres/"+ group.id +"/images")
+            //     .then(data => data.json())
+            //     .then(res => {
+            //         image = res
+            //     })
             return (
                 <IonCard>
                     <img alt="Silhouette of mountains" src="https://ionicframework.com/docs/img/demos/card-media.png" />
+                    {/* <img alt="Image enchere" src="https://ionicframework.com/docs/img/demos/card-media.png" /> */}
                     <IonIcon slot="icon-only" icon={albums}></IonIcon>
                     <IonCardHeader>
                         <IonGrid>
+                            {/* <a href='/detail_enchere/{group.nomProduit}' style={{ textDecoration: "none" }}> */}
+                            <Link style={{ textDecoration: "none"}} to={"/detail_enchere/" + group.id}>
                             <IonRow>
                                 <IonCol>
                                     <IonBadge color={getColorStatut(group.statut)}>{getStatut(group.statut)}</IonBadge>
@@ -171,6 +195,8 @@ const ListeEnchere: React.FC = () => {
                                     </div>
                                 </IonCol>
                             </IonRow>
+                            {/* </a> */}
+                            </Link>
                         </IonGrid>
                     </IonCardHeader>
 
@@ -180,68 +206,36 @@ const ListeEnchere: React.FC = () => {
                 </IonCard>
             )
         })
-        // return (
-        //     <>
-        //         <IonCard>
-        //             <img alt="Silhouette of mountains" src="https://ionicframework.com/docs/img/demos/card-media.png" />
-        //             <IonCardHeader>
-        //                 <IonGrid>
-        //                     <IonRow>
-        //                         <IonCol>
-        //                             <IonBadge color="success">En cours</IonBadge>
-        //                             <IonCardTitle>Bandouliere</IonCardTitle>
-        //                             <IonCardSubtitle>2023-01-25 12:37:08 (2h restant)</IonCardSubtitle>
-        //                         </IonCol>
-        //                         <IonCol size="auto">
-        //                             <div style={{ width: "20px" }}>
-        //                                 {/* <IonIcon icon={search}></IonIcon> */}
-        //                             </div>
-        //                         </IonCol>
-        //                     </IonRow>
-        //                 </IonGrid>
-        //             </IonCardHeader>
 
-        //             {/* <IonCardContent>
-        //                         Here's a small text description for the card content. Nothing more, nothing less.
-        //                     </IonCardContent> */}
-        //         </IonCard>
-        //         <IonCard>
-        //             <img alt="Silhouette of mountains" src="https://ionicframework.com/docs/img/demos/card-media.png" />
-        //             <IonCardHeader>
-        //                 <IonBadge color="danger">Terminée</IonBadge>
-        //                 <IonCardTitle>Bloc note</IonCardTitle>
-        //                 <IonCardSubtitle>2023-01-20 11:09:53</IonCardSubtitle>
-        //             </IonCardHeader>
 
-        //             <IonCardContent>
-        //                 Here's a small text description for the card content. Nothing more, nothing less.
-        //             </IonCardContent>
-        //         </IonCard>
-        //         <IonCard>
-        //             <img alt="Silhouette of mountains" src="https://ionicframework.com/docs/img/demos/card-media.png" />
-        //             <IonCardHeader>
-        //                 <IonCardTitle>Card Title</IonCardTitle>
-        //                 <IonCardSubtitle>Card Subtitle</IonCardSubtitle>
-        //             </IonCardHeader>
+    const results = search.map(group => {
+        return (
+            <IonCard>
+                <img alt="Silhouette of mountains" src="https://ionicframework.com/docs/img/demos/card-media.png" />
+                <IonIcon slot="icon-only" icon={albums}></IonIcon>
+                <IonCardHeader>
+                    <IonGrid>
+                        <IonRow>
+                            <IonCol>
+                                <IonBadge color={getColorStatut(group.statut)}>{getStatut(group.statut)}</IonBadge>
+                                <IonCardTitle>{group.nomProduit}</IonCardTitle>
+                                <IonCardSubtitle>{group.dateDebut} (2h restant)</IonCardSubtitle>
+                            </IonCol>
+                            <IonCol size="auto">
+                                <div style={{ width: "20px" }}>
+                                    {/* <IonIcon icon={search}></IonIcon> */}
+                                </div>
+                            </IonCol>
+                        </IonRow>
+                    </IonGrid>
+                </IonCardHeader>
 
-        //             <IonCardContent>
-        //                 Here's a small text description for the card content. Nothing more, nothing less.
-        //             </IonCardContent>
-        //         </IonCard>
-        //         <IonCard>
-        //             <img alt="Silhouette of mountains" src="https://ionicframework.com/docs/img/demos/card-media.png" />
-        //             <IonCardHeader>
-        //                 <IonCardTitle>Card Title</IonCardTitle>
-        //                 <IonCardSubtitle>Card Subtitle</IonCardSubtitle>
-        //             </IonCardHeader>
-
-        //             <IonCardContent>
-        //                 Here's a small text description for the card content. Nothing more, nothing less.
-        //             </IonCardContent>
-        //         </IonCard>
-        //     </>
-        // );
-    // }
+                {/* <IonCardContent>
+                                Here's a small text description for the card content. Nothing more, nothing less.
+                            </IonCardContent> */}
+            </IonCard>
+        )
+    })
 
     function handleRefresh(event: CustomEvent<RefresherEventDetail>) {
         setTimeout(() => {
@@ -261,11 +255,11 @@ const ListeEnchere: React.FC = () => {
         return (
             <IonFab style={buttonStyle}>
                 <IonFabButton>
-                    <IonIcon icon={chevronUpCircle}></IonIcon>
+                    <IonIcon icon={add}></IonIcon>
                 </IonFabButton>
                 <IonFabList side="top">
-                    <IonFabButton>
-                        <IonIcon icon={colorPalette}></IonIcon>
+                    <IonFabButton onClick={handleScrollToTop}>
+                        <IonIcon icon={chevronUpCircle}></IonIcon>
                     </IonFabButton>
                     <IonFabButton>
                         <IonIcon icon={add}></IonIcon>
@@ -288,12 +282,18 @@ const ListeEnchere: React.FC = () => {
         );
     }
 
+    const handleScrollToTop = () => {
+        if (contentRef.current) {
+            contentRef.current.scrollToTop(300);
+        }
+    };
+
     return (
         <>
             {/* <Menu/> */}
             <IonPage id="main-content">
                 <Header />
-                <IonContent>
+                <IonContent ref={contentRef}>
                     {/* <IonAlert
                         isOpen={showAlert1}
                         onDidDismiss={() => setShowAlert1(false)}
@@ -308,16 +308,23 @@ const ListeEnchere: React.FC = () => {
                     <ButtonFixed/>
                     <br></br>
                     <IonToolbar>
-                        <IonSearchbar></IonSearchbar>
+                        <IonSearchbar ref={searchBarRef} onIonChange={handleSearch}/>
                     </IonToolbar>
                     <br></br>
-                    <Segment/>
-                    <IonList>
+                    {/* <Segment/> */}
+                    {/* <IonButton>
+                            <IonIcon icon={add}></IonIcon>
+                            <IonLabel>Nouvelle enchere</IonLabel>
+                        </IonButton> */}
+                    <IonList id='liste_enchere'>
+                        {liste}
+                    </IonList>
+                    <IonList style={{ display: "none" }} id='result_search'>
                         {/* <IonButton>
                             <IonIcon icon={add}></IonIcon>
                             <IonLabel>Nouvelle enchere</IonLabel>
                         </IonButton> */}
-                        {liste}
+                        {results}
                     </IonList>
                 </IonContent>
             </IonPage>
