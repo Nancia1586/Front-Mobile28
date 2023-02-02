@@ -1,9 +1,11 @@
-import { IonButton, IonButtons, IonCol, IonCard, IonFab, IonContent, IonFabButton, IonFabList, IonCardHeader, IonCardContent, IonCardSubtitle, IonCardTitle, IonHeader, IonIcon, IonInput, IonItem, IonLabel, IonList, IonMenu, IonMenuButton, IonModal, IonPage, IonRefresher, IonRefresherContent, IonRow, IonSelect, IonSelectOption, IonThumbnail, IonTitle, IonToolbar, IonVirtualScroll, RefresherEventDetail, useIonViewWillEnter, IonBadge, IonGrid, IonSearchbar, IonPopover, IonChip, IonAvatar, useIonAlert, IonSegment, IonSegmentButton, IonToggle } from '@ionic/react';
+import { IonButton, IonButtons, IonCol, IonCard, IonFab, IonContent, IonFabButton, IonFabList, IonCardHeader, IonCardContent, IonCardSubtitle, IonCardTitle, IonHeader, IonIcon, IonInput, IonItem, IonLabel, IonList, IonMenu, IonMenuButton, IonModal, IonPage, IonRefresher, IonRefresherContent, IonRow, IonSelect, IonSelectOption, IonThumbnail, IonTitle, IonToolbar, IonVirtualScroll, RefresherEventDetail, useIonViewWillEnter, IonBadge, IonGrid, IonSearchbar, IonPopover, IonChip, IonAvatar, useIonAlert, IonSegment, IonSegmentButton, IonToggle, useIonLoading } from '@ionic/react';
 import { add, addCircleSharp, bagAdd, bagAddOutline, business, calendar, card, chevronUpCircle, colorPalette, list, logOut, moon, notifications, person, personCircle, search } from 'ionicons/icons';
 import { useEffect, useRef, useState } from 'react';
 
 const Profil: React.FC = () => {
         const toggleDarkModeHandler = () => document.body.classList.toggle('dark');
+        const [presentAlert] = useIonAlert();
+        const [presentLoading] = useIonLoading();
 
         function Menu() {
         return (
@@ -104,7 +106,36 @@ const Profil: React.FC = () => {
                                     </IonCol>
                                     <IonCol>
                                         <center>
-                                            <IonButton>
+                                            <IonButton onClick={() =>
+                                                presentAlert({
+                                                    header: 'Deconnexion',
+                                                    message: 'Êtes-vous sûr de vouloir vous déconnecter?',
+                                                    buttons: [
+                                                        {
+                                                            text: 'Non',
+                                                            role: 'cancel',
+                                                            cssClass: 'secondary',
+                                                            handler: (blah) => {
+                                                                console.log('Confirmation annulée');
+                                                            }
+                                                        },
+                                                        {
+                                                            text: 'Oui',
+                                                            handler: () => {
+                                                                console.log('Confirmation effectuée');
+                                                                presentLoading({
+                                                                    message: 'Deconnexion',
+                                                                    duration: 3000,
+                                                                });
+                                                                setTimeout(() => {
+                                                                    window.location.href = '/login';
+                                                                }, 3000)
+                                                            }
+                                                        }
+                                                    ],
+
+                                                })
+                                            }>
                                                 <IonIcon slot="icon-only" icon={logOut}></IonIcon>
                                             </IonButton>
                                         </center>
@@ -139,15 +170,7 @@ const Profil: React.FC = () => {
                     </IonRefresher>
                     {/* <RechargeForm /> */}
                     <br></br>
-                    {/* <IonItem lines="none">
-                        <IonIcon slot="start" icon={moon} />
-                        <IonLabel>Dark Mode</IonLabel>
-                        <IonToggle
-                            slot="end"
-                            name="darkMode"
-                            onIonChange={toggleDarkModeHandler}
-                        />
-                    </IonItem> */}
+                    
                 </IonContent>
             </IonPage>
         </>
