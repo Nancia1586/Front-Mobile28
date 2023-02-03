@@ -34,6 +34,8 @@ import HistoriqueRechargeCompte from './pages/HistoriqueRechargeCompte';
 import ListeEnchere from './pages/ListeEnchere';
 import Profil from './pages/Profil';
 import DetailEnchere from './pages/DetailEnchere';
+import Login from './pages/Login';
+import Subscribe from './pages/Subscribe';
 
 setupIonicReact();
 
@@ -53,6 +55,12 @@ const App: React.FC = () => (
           </Route>
           <Route path="/profil">
             <Profil />
+          </Route>
+          <Route path="/login">
+            <Login />
+          </Route>
+          <Route path="/subscribe">
+            <Subscribe />
           </Route>
           <Route exact path="/">
             <Redirect to="/login" />
