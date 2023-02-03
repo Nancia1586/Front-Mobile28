@@ -1,4 +1,4 @@
-import { IonButton, IonButtons, IonCol, IonCard, IonFab, IonContent, IonFabButton, IonFabList, IonCardHeader, IonCardContent, IonCardSubtitle, IonCardTitle, IonHeader, IonIcon, IonInput, IonItem, IonLabel, IonList, IonMenu, IonMenuButton, IonModal, IonPage, IonRefresher, IonRefresherContent, IonRow, IonSelect, IonSelectOption, IonThumbnail, IonTitle, IonToolbar, IonVirtualScroll, RefresherEventDetail, useIonViewWillEnter, IonBadge, IonGrid, IonSearchbar, IonPopover, IonChip, IonAvatar, useIonAlert, IonSegment, IonSegmentButton, IonToggle, useIonLoading } from '@ionic/react';
+import { IonButton, IonButtons, IonCol, IonCard, IonFab, IonContent, IonFabButton, IonFabList, IonCardHeader, IonCardContent, IonCardSubtitle, IonCardTitle, IonHeader, IonIcon, IonInput, IonItem, IonLabel, IonList, IonMenu, IonMenuButton, IonModal, IonPage, IonRefresher, IonRefresherContent, IonRow, IonSelect, IonSelectOption, IonThumbnail, IonTitle, IonToolbar, IonVirtualScroll, RefresherEventDetail, useIonViewWillEnter, IonBadge, IonGrid, IonSearchbar, IonPopover, IonChip, IonAvatar, useIonAlert, IonSegment, IonSegmentButton, IonToggle, useIonLoading, IonImg } from '@ionic/react';
 import { add, addCircleSharp, bagAdd, bagAddOutline, business, calendar, card, chevronUpCircle, colorPalette, list, logOut, moon, notifications, person, personCircle, search } from 'ionicons/icons';
 import { useEffect, useRef, useState } from 'react';
 
@@ -34,11 +34,16 @@ const Profil: React.FC = () => {
         );
     }
 
+    const avatarStyle = {
+        position: 'fixed',
+        center: '4vw'
+    };
+
     function Avatar() {
         return (
             <>
-                <IonAvatar>
-                    <img style={{ width: "40px", height: "40px" }} alt="Silhouette of a person's head" src="https://ionicframework.com/docs/img/demos/avatar.svg" />
+                <IonAvatar style={avatarStyle}>
+                    <img style={{ width: "60px", height: "60px" }} alt="Silhouette of a person's head" src="https://ionicframework.com/docs/img/demos/avatar.svg" />
                 </IonAvatar>
                 {/* <IonLabel>Rakoto</IonLabel> */}
             </>
@@ -170,7 +175,14 @@ const Profil: React.FC = () => {
                     </IonRefresher>
                     {/* <RechargeForm /> */}
                     <br></br>
-                    
+                    <IonCard color="light">
+                        <IonCardHeader>
+                            <IonCardSubtitle></IonCardSubtitle>
+                            <IonAvatar>
+
+                            </IonAvatar>
+                        </IonCardHeader>
+                    </IonCard>
                 </IonContent>
             </IonPage>
         </>
