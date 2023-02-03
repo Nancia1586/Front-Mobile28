@@ -270,7 +270,7 @@ const ListeEnchere: React.FC = () => {
                     <IonFabButton onClick={handleScrollToTop}>
                         <IonIcon icon={chevronUpCircle}></IonIcon>
                     </IonFabButton>
-                    <IonFabButton>
+                    <IonFabButton href="/addEnchere">
                         <IonIcon icon={add}></IonIcon>
                     </IonFabButton>
                 </IonFabList>
