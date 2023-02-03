@@ -12,8 +12,7 @@ const DetailEnchere: React.FC = () => {
     const [debut, setDebut] = useState("");
     const [statut, setStatut] = useState(0);
     const [proposition, setProposition] = useState<any[]>([]);
-    const [client, setClient] = useState("");
-
+    
     useEffect(() => {
         console.log(idEnchere.id);
         fetch("http://localhost:8787/encheres/"+idEnchere.id)
@@ -27,23 +26,6 @@ const DetailEnchere: React.FC = () => {
                 console.log(res.data.data.enc);
             })
     }, [])
-
-    useEffect(() => {
-        fetch("http://localhost:8787/encheres/" + idEnchere.id + "/propositions")
-            .then(data => data.json())
-            .then(res => {
-                setProposition(res.data.data.proposition);
-            })
-    }, [])
-
-    function getClient(id:number){
-        fetch("http://localhost:8787/clients/" + id)
-            .then(data => data.json())
-            .then(res => {
-                setClient(res.nom);
-            })
-        return client;
-    }
 
     function Header() {
         return (
@@ -115,6 +97,8 @@ const DetailEnchere: React.FC = () => {
                                     <IonBadge color={getColorStatut(statut)}>{getStatut(statut)}</IonBadge>
                                     <IonCardTitle>{produit}</IonCardTitle>
                                     <p>{description}</p>
+                                    <br></br>
+                                    <p>Prix de mise en enchère: {prix} Ariary</p>
                                     <IonCardSubtitle>{debut}</IonCardSubtitle>
                                 </IonCol>
                                 <IonCol size="auto">
@@ -129,36 +113,6 @@ const DetailEnchere: React.FC = () => {
         )
     }
 
-    const propos = proposition.map(group => {
-        return (
-            <IonItem>
-                <IonGrid>
-                    <IonRow>
-                        <IonCol size="auto">
-                            <div style={{ width: "50px" }}>
-                                <IonAvatar slot="start">
-                                    <IonImg src="https://ionicframework.com/docs/img/demos/avatar.svg" />
-                                </IonAvatar>
-                            </div>
-                        </IonCol>
-                        <IonCol>
-                            <IonLabel>
-                                <h2>Rakoto</h2>
-                                <p>{group.montant}</p>
-                            </IonLabel>
-                        </IonCol>
-                        <IonCol size="auto">
-                            <div style={{ width: "100px" }}>
-                                <i><h6>{group.date}</h6></i>
-                            </div>
-                        </IonCol>
-                    </IonRow>
-                </IonGrid>
-            </IonItem>
-        )
-    })
-
-
     return (
         <>
             {/* <Menu/> */}
@@ -172,9 +126,6 @@ const DetailEnchere: React.FC = () => {
                         {detail()}
                     </IonList>
                     <br></br>
-                    <IonList>
-                        {propos}
-                    </IonList>
                 </IonContent>
             </IonPage>
         </>

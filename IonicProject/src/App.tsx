@@ -30,7 +30,6 @@ import '@ionic/react/css/display.css';
 
 /* Theme variables */
 import './theme/variables.css';
-import Login from './pages/Login';
 import HistoriqueRechargeCompte from './pages/HistoriqueRechargeCompte';
 import ListeEnchere from './pages/ListeEnchere';
 import Profil from './pages/Profil';
@@ -51,9 +50,6 @@ const App: React.FC = () => (
           </Route>
           <Route path="/historique_recharge_compte">
             <HistoriqueRechargeCompte />
-          </Route>
-          <Route path="/login">
-            <Login />
           </Route>
           <Route path="/profil">
             <Profil />
