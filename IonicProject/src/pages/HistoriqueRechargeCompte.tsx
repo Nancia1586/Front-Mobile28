@@ -8,7 +8,8 @@ const HistoriqueRechargeCompte: React.FC = () => {
     const [solde, setSolde] = useState(0);
     const modal = useRef<HTMLIonModalElement>(null);
     const [presentAlert] = useIonAlert();
-    const [token, setToken] = useState("bearer eyJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2NzUyNTIzMzEsImV4cCI6MTY3NTI1MjYzMSwiaWRjbGllbnQiOjF9.4ILR_wBr2d8lnVXR6nUf1yVjMOJiw1qD_UR8NuNjwLo");
+    // const [token, setToken] = useState(localStorage.getItem("token"));
+    const token = localStorage.getItem("token");
 
     useEffect(() => {
         fetch("http://localhost:8787/clients/compte?token="+token)
@@ -20,7 +21,7 @@ const HistoriqueRechargeCompte: React.FC = () => {
     }, [])
 
     useEffect(() => {
-        fetch("http://localhost:8787/clients/1")
+        fetch("http://localhost:8787/clients/" + localStorage.getItem("idClient"))
             .then(data => data.json())
             .then(res => {
                 console.log(res.solde);
@@ -274,7 +275,7 @@ const HistoriqueRechargeCompte: React.FC = () => {
                                         // console.log('Montant ' + montant);
                                         // setMontant(montant as number);
                                         var form = new FormData();
-                                        form.append("token", token);
+                                        form.append("token", token as string);
                                         form.append("valeur", montant as string);
                                         // POSTGRES
                                         fetch("http://localhost:8787/comptes/compte", {

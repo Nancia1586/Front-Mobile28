@@ -11,16 +11,17 @@ const ListeEnchere: React.FC = () => {
     const contentRef = useRef<HTMLIonContentElement>(null);
     
     useEffect(() => {
-        fetch("http://localhost:8787/clients/1/encheres")
+        fetch("http://localhost:8787/clients/" + localStorage.getItem("idClient") +"/encheres")
             .then(data => data.json())
             .then(res => {
                 setList(res);
+                // console.log(res[3].images);
             })
     }, [])
 
     const handleSearch = () => {
         console.log(searchBarRef.current!.value);
-        fetch("http://localhost:8787/clients/1/encheres/search?mot=" + searchBarRef.current!.value)
+        fetch("http://localhost:8787/clients/" + localStorage.getItem("idClient") +"/encheres/search?mot=" + searchBarRef.current!.value)
             .then(data => data.json())
             .then(res => {
                 setSearch(res);
@@ -168,15 +169,17 @@ const ListeEnchere: React.FC = () => {
 
     // function List(){
         const liste = list_.map(group => {
-            // const image = "";
-            // fetch("http://localhost:8787/encheres/"+ group.id +"/images")
-            //     .then(data => data.json())
-            //     .then(res => {
-            //         image = res
-            //     })
+            let img = "https://ionicframework.com/docs/img/demos/card-media.png";
+            let tab = group.images;
+            console.log(tab.length);
+            if (tab.length > 0){
+                img = group.images[0].image;
+                console.log(group.images[0].image);
+            }
+            console.log(img); 
             return (
                 <IonCard>
-                    <img alt="Silhouette of mountains" src="https://ionicframework.com/docs/img/demos/card-media.png" />
+                    <img alt="Silhouette of mountains" src={img} />
                     {/* <img alt="Image enchere" src="https://ionicframework.com/docs/img/demos/card-media.png" /> */}
                     <IonIcon slot="icon-only" icon={albums}></IonIcon>
                     <IonCardHeader>
@@ -186,7 +189,7 @@ const ListeEnchere: React.FC = () => {
                                     <IonCol>
                                         <IonBadge color={getColorStatut(group.statut)}>{getStatut(group.statut)}</IonBadge>
                                         <IonCardTitle>{group.nomProduit}</IonCardTitle>
-                                        <IonCardSubtitle>{group.dateDebut} (2h restant)</IonCardSubtitle>
+                                        <IonCardSubtitle>{group.dateDebut}</IonCardSubtitle>
                                     </IonCol>
                                     <IonCol size="auto">
                                         <div style={{ width: "20px" }}>
@@ -207,9 +210,17 @@ const ListeEnchere: React.FC = () => {
 
 
     const results = search.map(group => {
+        let img = "https://ionicframework.com/docs/img/demos/card-media.png";
+        let tab = group.images;
+        console.log(tab.length);
+        if (tab.length > 0) {
+            img = group.images[0].image;
+            console.log(group.images[0].image);
+        }
+        console.log(img); 
         return (
             <IonCard>
-                <img alt="Silhouette of mountains" src="https://ionicframework.com/docs/img/demos/card-media.png" />
+                <img alt="Silhouette of mountains" src={img} />
                 <IonIcon slot="icon-only" icon={albums}></IonIcon>
                 <IonCardHeader>
                     <IonGrid>

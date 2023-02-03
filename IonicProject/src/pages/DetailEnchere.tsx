@@ -12,6 +12,7 @@ const DetailEnchere: React.FC = () => {
     const [debut, setDebut] = useState("");
     const [statut, setStatut] = useState(0);
     const [proposition, setProposition] = useState<any[]>([]);
+    const [image, setImage] = useState<any[]>([]);
     
     useEffect(() => {
         console.log(idEnchere.id);
@@ -23,6 +24,14 @@ const DetailEnchere: React.FC = () => {
                 setPrix(res.data.data.enc.prixEnchere);
                 setDebut(res.data.data.enc.dateDebut);
                 setStatut(res.data.data.enc.statut);
+                let img = res.data.data.enc.images;
+                console.log(img.length);
+                // let src = "https://ionicframework.com/docs/img/demos/card-media.png";
+                if (img.length > 0){
+                    // console.log(img[0].image);
+                    // src = img[0].image;
+                    setImage(img);
+                }
                 console.log(res.data.data.enc);
             })
     }, [])
@@ -87,9 +96,19 @@ const DetailEnchere: React.FC = () => {
 
     function detail(){
     // const detail = enchere.map(group => {
+        
+        // image.map((p) => (
+        //     <h2>{p}</h2>
+        // ))
+        console.log(image.length);
         return (
             <IonCard>
-                <img alt="Silhouette of mountains" src="https://ionicframework.com/docs/img/demos/card-media.png" />
+                {/* <img alt="Silhouette of mountains" src="https://ionicframework.com/docs/img/demos/card-media.png" /> */}
+                {
+                    image.map((p) => (
+                        <img alt="Silhouette of mountains" src={p.image} />
+                    ))
+                }
                 <IonCardHeader>
                     <IonGrid>
                         <IonRow>

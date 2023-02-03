@@ -28,6 +28,8 @@ import '@ionic/react/css/text-transformation.css';
 import '@ionic/react/css/flex-utils.css';
 import '@ionic/react/css/display.css';
 
+import OneSignal from 'onesignal-cordova-plugin';
+
 /* Theme variables */
 import './theme/variables.css';
 import HistoriqueRechargeCompte from './pages/HistoriqueRechargeCompte';
@@ -36,10 +38,19 @@ import Profil from './pages/Profil';
 import DetailEnchere from './pages/DetailEnchere';
 import Login from './pages/Login';
 import Subscribe from './pages/Subscribe';
+import AddEnchere from './pages/AddEnchere';
 
 setupIonicReact();
 
-const App: React.FC = () => (
+const App: React.FC = () => {
+  const OneSignalInit=()=>{
+    OneSignal.setAppId("67b09624-5e41-4bb9-aaed-2d64e48956a9");
+    OneSignal.setNotificationOpenedHandler(function(jsonData){
+      console.log('Notification: '+JSON.stringify);
+    })
+  }
+
+return(
   <IonApp>
     <IonReactRouter>
       <IonTabs>
@@ -62,6 +73,9 @@ const App: React.FC = () => (
           <Route path="/subscribe">
             <Subscribe />
           </Route>
+          <Route path="/addEnchere">
+            <AddEnchere />
+          </Route>
           <Route exact path="/">
             <Redirect to="/login" />
           </Route>
@@ -77,6 +91,7 @@ const App: React.FC = () => (
       </IonTabs>
     </IonReactRouter>
   </IonApp>
-);
+)
+};
 
 export default App;

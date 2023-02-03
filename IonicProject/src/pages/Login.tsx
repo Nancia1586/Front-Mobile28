@@ -24,6 +24,7 @@ const Login: React.FC = () => {
       }
       //console.log(typeof resultat.data.data.token);
       localStorage.setItem("token",resultat.data.data.token);
+      localStorage.setItem("idClient", resultat.data.data.idClient);
       history.push('/liste_enchere');///ATO LE MIOVA ANZE ANDEHANANY
 
     })
